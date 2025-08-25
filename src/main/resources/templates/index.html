@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang chủ - Skincare Booking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Optional: custom style -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .service-card, .expert-card {
+            transition: transform 0.2s ease;
+        }
+        .service-card:hover, .expert-card:hover {
+            transform: scale(1.02);
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<!-- Banner -->
+<article id="dynamicBanner" class="banner text-dark py-5"
+         style="background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)),
+                url('/images/brightface.jpg') center/cover no-repeat;">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-3">✨ Chăm Sóc Da Toàn Diện ✨</h1>
+        <p class="lead mb-4">Khám phá làn da khỏe đẹp với dịch vụ cá nhân hóa từ đội ngũ chuyên viên giàu kinh nghiệm</p>
+        <a th:href="@{/quiz}" class="btn btn-lg btn-pink fw-semibold shadow-sm px-4 py-2"
+           style="border-radius: 30px; background-color: #ff5c8d; color: white;">
+            💖 Bắt Đầu Trắc Nghiệm
+        </a>
+    </div>
+</article>
+<br>
+
+<!-- Dịch vụ nổi bật -->
+<section class="container mb-5">
+    <h2 class="mb-4 text-center text-secondary">💅 Dịch vụ nổi bật</h2>
+    <div class="row justify-content-center g-4 text-center">
+        <div class="col-6 col-sm-4 col-md-3" th:each="service, iter : ${serviceList}" th:if="${iter.index} < 4">
+            <div class="p-3 border rounded-4 shadow-sm service-item h-100">
+                <img th:src="@{${service.imageUrl}}" class="rounded-circle img-fluid mb-2 border" alt="Dịch vụ"
+                     style="width: 120px; height: 120px; object-fit: cover;">
+                <h6 class="fw-bold text-dark mb-1" th:text="${service.name}">Tên dịch vụ</h6>
+                <p class="text-muted small mb-0" th:text="${service.description}">Mô tả</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Chuyên viên -->
+<section class="container mb-5">
+    <h2 class="mb-4 text-center text-secondary">👩‍⚕️ Đội ngũ chuyên viên</h2>
+    <div class="row justify-content-center g-4 text-center">
+        <div class="col-6 col-sm-4 col-md-3" th:each="cv, iter : ${chuyenVienList}" th:if="${iter.index} < 4">
+            <div class="p-3 border rounded-4 shadow-sm expert-item h-100">
+                <img th:src="@{${cv.hinhAnh}}" class="rounded-circle img-fluid mb-2 border" alt="Chuyên viên"
+                     style="width: 120px; height: 120px; object-fit: cover;">
+                <h6 class="fw-bold text-dark mb-1" th:text="${cv.hoTen}">Tên chuyên viên</h6>
+                <p class="text-muted small mb-1"><strong>CM:</strong> <span th:text="${cv.chuyenMon}"></span></p>
+                <p class="text-muted small"><strong>📞:</strong> <span th:text="${cv.soDienThoai}"></span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const banner = document.getElementById('dynamicBanner');
+    const bannerImages = [
+        "/images/brightface.jpg",
+        "/images/detox.jpg",
+        "/images/tmcs.jpg"
+    ];
+    let currentBanner = 0;
+
+    setInterval(() => {
+        currentBanner = (currentBanner + 1) % bannerImages.length;
+        banner.style.background = `
+      linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)),
+      url('${bannerImages[currentBanner]}') center/cover no-repeat`;
+    }, 3000); // đổi hình mỗi 3 giây
+</script>
+</body>
+</html>

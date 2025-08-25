@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý dịch vụ</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container mt-4">
+    <div class="page-head">
+        <h3>Dịch vụ</h3>
+        <a class="btn btn-primary" th:href="@{/admin/services/new}">
+            <i class="bi bi-plus"></i> Thêm
+        </a>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th><th>Tên</th><th>Giá</th><th>Trạng thái</th><th class="text-end">Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="s : ${services}">
+            <td th:text="${s.id}">1</td>
+            <td th:text="${s.name}">Tên</td>
+            <td th:text="${#numbers.formatDecimal(s.price, 0, 'COMMA', 0, 'POINT')}">0</td>
+            <td>
+                <span th:text="${s.status} ? 'Đang bán' : 'Ngưng'" class="badge badge-muted"></span>
+            </td>
+            <td class="text-end">
+                <a class="btn btn-sm btn-warning" th:href="@{|/admin/services/${s.id}/edit|}">
+                    <i class="bi bi-pencil-square"></i> Sửa
+                </a>
+                <form th:action="@{|/admin/services/${s.id}/delete|}" method="post" class="d-inline"
+                      onsubmit="return confirm('Xóa dịch vụ này?');">
+                    <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Xóa</button>
+                    <input th:if="${_csrf != null}" type="hidden"
+                           th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

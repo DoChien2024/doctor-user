@@ -1,0 +1,20 @@
+.service-card {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    overflow: hidden;
+}
+.service-card:hover {
+    transform: translateY(-5px);
+}
+.service-image {
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+/* Làm cho toàn bộ div clickable */
+.service-link {
+    text-decoration: none;
+    color: inherit;
+}

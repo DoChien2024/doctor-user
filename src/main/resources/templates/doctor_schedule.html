@@ -1,0 +1,121 @@
+<!-- src/main/resources/templates/doctor_schedule.html -->
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Lịch làm việc bác sĩ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+
+<!-- Header chung -->
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container py-4">
+    <h3 class="mb-3">Lịch làm việc bác sĩ</h3>
+
+    <!-- Thông báo lỗi -->
+    <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+
+    <!-- Bộ lọc bác sĩ (mặc định xem tất cả) -->
+    <form method="get" th:action="@{/doctor/schedule}" class="row g-3 mb-3">
+        <div class="col-12 col-md-4">
+            <label class="form-label">Xem lịch của</label>
+            <select class="form-select" name="doctorId" onchange="this.form.submit()">
+                <!-- LƯU Ý: dùng value="" (không dùng th:value rỗng) -->
+                <option value="" th:selected="${doctorId == null}">— Tất cả bác sĩ —</option>
+                <option th:each="c : ${chuyenViens}"
+                        th:value="${c.id}"
+                        th:text="${c.hoTen}"
+                        th:selected="${doctorId != null and c.id == doctorId}">
+                    Bác sĩ
+                </option>
+            </select>
+        </div>
+        <div class="col-12 col-md-2 align-self-end">
+            <noscript><button class="btn btn-primary w-100">Xem</button></noscript>
+        </div>
+    </form>
+
+    <!-- Nếu đã chọn 1 bác sĩ, hiển thị tên -->
+    <div th:if="${cv != null}" class="mb-2">
+        <h5 class="mb-1">Bác sĩ/Chuyên viên: <span th:text="${cv.hoTen}">Tên bác sĩ</span></h5>
+    </div>
+
+    <!-- Bảng lịch -->
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+            <tr>
+                <th style="width:180px;">Thời gian</th>
+                <th>Bác sĩ</th>
+                <th>Dịch vụ</th>
+                <th>Tên khách</th>
+                <th style="width:150px;">SĐT khách</th>
+                <th style="width:140px;">Trạng thái</th>
+                <th style="width:260px;">Hành động</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:if="${bookings == null or #lists.isEmpty(bookings)}">
+                <td colspan="7" class="text-muted">Chưa có ca nào.</td>
+            </tr>
+
+            <tr th:each="b : ${bookings}">
+                <!-- Thời gian -->
+                <td th:text="${#temporals.format(b.appointmentTime, 'dd/MM/yyyy HH:mm')}">01/01/2025 10:00</td>
+
+                <!-- Bác sĩ -->
+                <td th:text="${b.chuyenVien != null ? b.chuyenVien.hoTen : 'N/A'}">Tên bác sĩ</td>
+
+                <!-- Dịch vụ -->
+                <td th:text="${b.service != null ? b.service.name : 'Dịch vụ'}">Dịch vụ</td>
+
+                <!-- Tên khách -->
+                <td th:text="${b.customerName}">Tên KH</td>
+
+                <!-- SĐT khách -->
+                <td th:text="${b.customerPhone}">090...</td>
+
+                <!-- Trạng thái -->
+                <td>
+          <span class="badge"
+                th:classappend="${b.status.name() == 'PENDING'} ? ' bg-secondary' :
+                                (${b.status.name() == 'CONFIRMED'} ? ' bg-primary' :
+                                (${b.status.name() == 'DONE'} ? ' bg-success' : ' bg-danger'))"
+                th:text="${b.status}">
+            PENDING
+          </span>
+                </td>
+
+                <!-- Hành động -->
+                <td>
+                    <!-- PENDING -> Confirm -->
+                    <form th:if="${b.status.name() == 'PENDING'}"
+                          th:action="@{/doctor/bookings/{id}/confirm(id=${b.id})}"
+                          method="post" class="d-inline">
+                        <input type="hidden" name="doctorId" th:if="${doctorId != null}" th:value="${doctorId}">
+                        <button class="btn btn-sm btn-outline-primary">Xác nhận</button>
+                    </form>
+
+                    <!-- Gửi/Xem kết quả (hiện khi CONFIRMED hoặc DONE) -->
+                    <a th:if="${b.status.name() == 'CONFIRMED' or b.status.name() == 'DONE'}"
+                       th:href="${doctorId != null}
+                      ? @{/doctor/results/{id}(id=${b.id}, doctorId=${doctorId})}
+                      : @{/doctor/results/{id}(id=${b.id})}"
+                       class="btn btn-sm"
+                       th:classappend="${b.status.name() == 'DONE'} ? ' btn-outline-success' : ' btn-success'">
+                        <span th:text="${b.status.name() == 'DONE'} ? 'Xem/Sửa kết quả' : 'Gửi kết quả'">Gửi kết quả</span>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+body {
+    background-color: #f8f9fa;
+}
+.card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease-in-out;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+.card-img-top {
+    height: 260px;
+    object-fit: cover;
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+}
+.card-title {
+    color: #d63384;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+.section-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 40px;
+    color: #343a40;
+}

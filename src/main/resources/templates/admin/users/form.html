@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý người dùng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+<div th:replace="fragments/header :: header"></div>
+
+<main class="max-w-6xl mx-auto px-4 py-6">
+    <div class="flex items-center justify-between mb-4">
+        <h1 class="text-xl font-semibold">Người dùng</h1>
+        <a th:href="@{/admin/users/new}" class="px-3 py-2 rounded-md bg-indigo-600 text-white text-sm hover:bg-indigo-700">
+            + Thêm
+        </a>
+    </div>
+
+    <div class="overflow-hidden rounded-lg border border-gray-200 bg-white">
+        <table class="min-w-full divide-y divide-gray-200 text-sm">
+            <thead class="bg-gray-50">
+            <tr>
+                <th class="px-4 py-2 text-left font-medium text-gray-600">ID</th>
+                <th class="px-4 py-2 text-left font-medium text-gray-600">Username</th>
+                <th class="px-4 py-2 text-left font-medium text-gray-600">Role</th>
+                <th class="px-4 py-2 text-right font-medium text-gray-600">Hành động</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+            <tr th:each="u : ${users}">
+                <td class="px-4 py-2" th:text="${u.id}">1</td>
+                <td class="px-4 py-2" th:text="${u.username}">user</td>
+                <td class="px-4 py-2">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-indigo-50 text-indigo-700"
+                  th:text="${u.role}">USER</span>
+                </td>
+                <td class="px-4 py-2 text-right">
+                    <a th:href="@{|/admin/users/${u.id}/edit|}" class="px-3 py-1.5 rounded-md border text-gray-700 hover:bg-gray-50">Sửa</a>
+                    <form th:action="@{|/admin/users/${u.id}/delete|}" method="post" class="inline"
+                          onsubmit="return confirm('Xóa người dùng này?');">
+                        <button class="ml-1 px-3 py-1.5 rounded-md bg-rose-600 text-white hover:bg-rose-700">Xóa</button>
+                        <input th:if="${_csrf != null}" type="hidden"
+                               th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

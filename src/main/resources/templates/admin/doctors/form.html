@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${cv != null ? 'Sửa bác sĩ' : 'Thêm bác sĩ'}">Bác sĩ</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container mt-4">
+    <div class="page-head">
+        <h3 th:text="${cv != null ? 'Sửa bác sĩ / chuyên viên' : 'Thêm bác sĩ / chuyên viên'}">Form</h3>
+    </div>
+
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}">Lỗi</div>
+
+    <!-- action khác nhau giữa tạo mới và cập nhật -->
+    <form th:action="${cv != null} ? @{|/admin/doctors/${cv.id}/edit|} : @{/admin/doctors/new}" method="post">
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Username (tài khoản bác sĩ)</label>
+                <input class="form-control" type="text" name="username"
+                       th:value="${cv != null ? cv.user.username : ''}" required>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">
+                    Mật khẩu
+                    <small class="text-muted" th:text="${cv != null ? '(để trống nếu không đổi)' : ''}"></small>
+                </label>
+                <input class="form-control" type="password" name="password"
+                       th:attr="required=${cv == null}">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Họ tên</label>
+                <input class="form-control" type="text" name="hoTen" th:value="${cv != null ? cv.hoTen : ''}" required>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Chuyên môn</label>
+                <input class="form-control" type="text" name="chuyenMon" th:value="${cv != null ? cv.chuyenMon : ''}">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Số điện thoại</label>
+                <input class="form-control" type="text" name="soDienThoai" th:value="${cv != null ? cv.soDienThoai : ''}">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Hình ảnh (URL hoặc file name)</label>
+                <input class="form-control" type="text" name="hinhAnh" th:value="${cv != null ? cv.hinhAnh : ''}">
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button class="btn btn-primary" type="submit"><i class="bi bi-save"></i> Lưu</button>
+            <a class="btn btn-secondary" th:href="@{/admin/doctors}">Hủy</a>
+        </div>
+
+        <input th:if="${_csrf != null}" type="hidden"
+               th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    </form>
+</div>
+</body>
+</html>

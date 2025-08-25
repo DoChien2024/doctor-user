@@ -1,0 +1,111 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ddd9d9;
+}
+
+/* Navbar */
+.navbar {
+    box-shadow: 0 4px 6px rgb(253, 254, 255);
+}
+
+/* Banner */
+.banner {
+    background: url('/images/banner.jpg') no-repeat center center/cover;
+    padding: 100px 0;
+}
+
+.banner h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.banner p {
+    font-size: 1.2rem;
+}
+
+/* Services Section */
+.card {
+    transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    background-color: #6a91b8;
+}
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 20px rgba(40, 167, 69, 0.8);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+    }
+}
+
+.btn-pulse {
+    animation: pulse 1.5s infinite;
+}
+.service-item {
+    position: relative;
+    width: 350px; /* Điều chỉnh theo nhu cầu */
+}
+
+.image-container {
+    position: relative;
+}
+
+.image-container img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Lớp nền mờ */
+    color: white;
+    text-align: center;
+    padding: 15px;
+    border-radius: 0 0 10px 10px;
+}
+
+.overlay h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.overlay p {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.overlay button {
+    background: #e282e2;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.overlay button:hover {
+    background: #0056b3;
+}
+.card-img-top {
+    width: 100%;
+    aspect-ratio: 16/9; /* Giữ tỷ lệ 16:9 */
+    object-fit: cover;
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết kết quả khám/điều trị</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container py-4">
+    <h3 class="mb-3">Chi tiết kết quả</h3>
+
+    <div class="row g-3">
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-header">Thông tin lịch</div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Thời gian</dt>
+                        <dd class="col-sm-8" th:text="${#temporals.format(b.appointmentTime, 'dd/MM/yyyy HH:mm')}">...</dd>
+
+                        <dt class="col-sm-4">Bác sĩ</dt>
+                        <dd class="col-sm-8" th:text="${b.chuyenVien != null ? b.chuyenVien.hoTen : 'N/A'}">...</dd>
+
+                        <dt class="col-sm-4">Dịch vụ</dt>
+                        <dd class="col-sm-8" th:text="${b.service != null ? b.service.name : 'Dịch vụ'}">...</dd>
+
+                        <dt class="col-sm-4">Trạng thái</dt>
+                        <dd class="col-sm-8">
+              <span class="badge"
+                    th:classappend="${b.status.name() == 'DONE'} ? ' bg-success' :
+                                    (${b.status.name() == 'CONFIRMED'} ? ' bg-primary' :
+                                    (${b.status.name() == 'PENDING'} ? ' bg-secondary' : ' bg-danger'))"
+                    th:text="${b.status}">DONE</span>
+                        </dd>
+
+                        <dt class="col-sm-4" th:if="${b.resultAt != null}">Ngày trả kết quả</dt>
+                        <dd class="col-sm-8" th:if="${b.resultAt != null}"
+                            th:text="${#temporals.format(b.resultAt, 'dd/MM/yyyy HH:mm')}">...</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-header">Kết quả</div>
+                <div class="card-body">
+                    <div th:if="${b.status.name() != 'DONE'}" class="alert alert-info">
+                        Kết quả đang được bác sĩ cập nhật. Vui lòng quay lại sau.
+                    </div>
+                    <pre class="bg-light p-3" th:if="${b.status.name() == 'DONE'}"
+                         th:text="${b.resultNote != null ? b.resultNote : '(không có nội dung)'}"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a class="btn btn-outline-secondary" th:href="@{/user/results}">&laquo; Về danh sách</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
