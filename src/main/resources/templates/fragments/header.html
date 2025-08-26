@@ -15,7 +15,7 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
     <div class="container">
       <a class="navbar-brand fw-bold text-primary" th:href="@{/}">
-        <i class="bi bi-flower1"></i> KAMOI Booking Skincare
+        <i class="bi bi-flower1"></i> Phòng Khám Đa Khoa
       </a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -47,7 +47,7 @@
               th:if="${session.user != null and session.role != null
                       and (session.role.name() == 'USER' or session.role.toString() == 'USER')}">
             <a class="nav-link" th:href="@{/chuyenvien}">
-              <i class="bi bi-person-badge"></i> Chuyên Viên
+              <i class="bi bi-person-badge"></i> Đội ngũ
             </a>
           </li>
 

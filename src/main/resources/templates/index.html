@@ -2,7 +2,7 @@
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Trang chủ - Skincare Booking</title>
+    <title>Trang chủ - Phòng khám đa khoa</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap 5 -->
@@ -34,11 +34,11 @@
          style="background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)),
                 url('/images/brightface.jpg') center/cover no-repeat;">
     <div class="container text-center">
-        <h1 class="display-4 fw-bold mb-3">✨ Chăm Sóc Da Toàn Diện ✨</h1>
-        <p class="lead mb-4">Khám phá làn da khỏe đẹp với dịch vụ cá nhân hóa từ đội ngũ chuyên viên giàu kinh nghiệm</p>
+        <h1 class="display-4 fw-bold mb-3">✨ Chăm Sức Khỏe Toàn Diện ✨</h1>
+        <p class="lead mb-4">Đặt lịch nhanh chóng, chăm sóc sức khỏe toàn diện với dịch vụ từ đội ngũ bác sĩ giàu kinh nghiệm</p>
         <a th:href="@{/quiz}" class="btn btn-lg btn-pink fw-semibold shadow-sm px-4 py-2"
            style="border-radius: 30px; background-color: #ff5c8d; color: white;">
-            💖 Bắt Đầu Trắc Nghiệm
+            💖 Bắt Đầu Trải Nghiệm
         </a>
     </div>
 </article>
@@ -63,13 +63,13 @@
 
 <!-- Chuyên viên -->
 <section class="container mb-5">
-    <h2 class="mb-4 text-center text-secondary">👩‍⚕️ Đội ngũ chuyên viên</h2>
+    <h2 class="mb-4 text-center text-secondary">👩‍⚕️ Đội ngũ Bác sĩ</h2>
     <div class="row justify-content-center g-4 text-center">
         <div class="col-6 col-sm-4 col-md-3" th:each="cv, iter : ${chuyenVienList}" th:if="${iter.index} < 4">
             <div class="p-3 border rounded-4 shadow-sm expert-item h-100">
                 <img th:src="@{${cv.hinhAnh}}" class="rounded-circle img-fluid mb-2 border" alt="Chuyên viên"
                      style="width: 120px; height: 120px; object-fit: cover;">
-                <h6 class="fw-bold text-dark mb-1" th:text="${cv.hoTen}">Tên chuyên viên</h6>
+                <h6 class="fw-bold text-dark mb-1" th:text="${cv.hoTen}">Tên bác sĩ</h6>
                 <p class="text-muted small mb-1"><strong>CM:</strong> <span th:text="${cv.chuyenMon}"></span></p>
                 <p class="text-muted small"><strong>📞:</strong> <span th:text="${cv.soDienThoai}"></span></p>
             </div>
